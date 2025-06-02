@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronomètre & Compte à Rebours</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body data-theme="dark">
+    <div class="app-container">
+        <header class="app-header">
+            <h1 id="appTitle">Chronomètre</h1>
+            <div class="header-controls">
+                <button id="fullscreenBtn" class="icon-btn" aria-label="Mode plein écran">
+                    <img src="assets/fullscreen.svg" alt="Plein écran">
+                </button>
+                <button id="themeToggleBtn" class="theme-btn" aria-label="Changer de thème">
+                    <img src="assets/theme-light.svg" alt="Thème clair" class="theme-icon-light">
+                    <img src="assets/theme-dark.svg" alt="Thème sombre" class="theme-icon-dark">
+                </button>
+            </div>
+        </header>
+
+        <div class="mode-switcher">
+            <button id="switchToChronoBtn" class="mode-btn active" data-mode="chrono">Chronomètre</button>
+            <button id="switchToCountdownBtn" class="mode-btn" data-mode="countdown">Compte à Rebours</button>
+        </div>
+
+        <!-- Section Chronomètre -->
+        <div id="chronoModeSection" class="mode-section active-mode">
+            <div class="main-display">
+                <span id="time-display">00:00:00.000</span>
+            </div>
+            <div class="controls main-controls">
+                <button id="playBtn" class="control-btn" aria-label="Démarrer"><img src="assets/play.svg" alt="Play"></button>
+                <button id="pauseBtn" class="control-btn hidden" aria-label="Mettre en pause"><img src="assets/pause.svg" alt="Pause"></button>
+                <button id="lapBtn" class="control-btn hidden" aria-label="Enregistrer un temps (Chrono)"><img src="assets/lap.svg" alt="Temps"></button>
+                <button id="stopBtn" class="control-btn hidden" aria-label="Arrêter"><img src="assets/stop.svg" alt="Stop"></button>
+                <button id="resetBtn" class="control-btn hidden" aria-label="Réinitialiser"><img src="assets/reset.svg" alt="Reset"></button>
+                <button id="saveBtn" class="control-btn hidden" aria-label="Afficher options de sauvegarde"><img src="assets/save.svg" alt="Save"></button>
+            </div>
+            <div id="laps-section-chrono" class="laps-section hidden">
+                <h2>Temps Enregistrés (Chrono)</h2>
+                <div class="sort-controls">
+                    <span>Trier:</span>
+                    <button id="sortAscBtnChrono" class="sort-btn" aria-label="Trier par ordre croissant"><img src="assets/sort-asc.svg" alt="Croissant"></button>
+                    <button id="sortDescBtnChrono" class="sort-btn" aria-label="Trier par ordre décroissant"><img src="assets/sort-desc.svg" alt="Décroissant"></button>
+                </div>
+                <ul id="laps-list-chrono"></ul>
+            </div>
+            <div id="exportOptionsDivChrono" class="export-options hidden">
+                <button id="exportPdfBtnChrono" class="app-btn export-btn">Exporter en PDF</button>
+                <button id="exportCsvBtnChrono" class="app-btn export-btn">Exporter en CSV</button>
+                <button id="exportJsonBtnChrono" class="app-btn export-btn">Exporter en JSON</button>
+            </div>
+        </div>
+
+        <!-- Section Compte à Rebours -->
+        <div id="countdownModeSection" class="mode-section">
+            <div class="main-display">
+                <span id="countdown-display">00:00:00</span>
+            </div>
+            <div class="countdown-setup">
+                <label for="countdown-hours">H:</label>
+                <input type="number" id="countdown-hours" min="0" max="99" value="0">
+                <label for="countdown-minutes">M:</label>
+                <input type="number" id="countdown-minutes" min="0" max="59" value="0">
+                <label for="countdown-seconds">S:</label>
+                <input type="number" id="countdown-seconds" min="0" max="59" value="5">
+            </div>
+            <div class="controls countdown-controls">
+                <button id="startCountdownBtn" class="control-btn" aria-label="Démarrer compte à rebours"><img src="assets/play.svg" alt="Start"></button>
+                <button id="pauseCountdownBtn" class="control-btn hidden" aria-label="Pause compte à rebours"><img src="assets/pause.svg" alt="Pause"></button>
+                <button id="lapCountdownBtn" class="control-btn hidden" aria-label="Enregistrer un temps (CàR)"><img src="assets/lap.svg" alt="Temps"></button>
+                <button id="resetCountdownBtn" class="control-btn hidden" aria-label="Réinitialiser compte à rebours"><img src="assets/reset.svg" alt="Reset"></button>
+                <button id="saveCountdownBtn" class="control-btn hidden" aria-label="Afficher options de sauvegarde (CàR)"><img src="assets/save.svg" alt="Save"></button>
+            </div>
+             <div class="countdown-options">
+                 <label><input type="checkbox" id="countdownNotificationCheck"> M'avertir à la fin</label>
+            </div>
+            <div id="laps-section-countdown" class="laps-section hidden">
+                <h2>Temps Enregistrés (CàR)</h2>
+                <div class="sort-controls">
+                    <span>Trier:</span>
+                    <button id="sortAscBtnCountdown" class="sort-btn" aria-label="Trier par ordre croissant"><img src="assets/sort-asc.svg" alt="Croissant"></button>
+                    <button id="sortDescBtnCountdown" class="sort-btn" aria-label="Trier par ordre décroissant"><img src="assets/sort-desc.svg" alt="Décroissant"></button>
+                </div>
+                <ul id="laps-list-countdown"></ul>
+            </div>
+            <div id="exportOptionsDivCountdown" class="export-options hidden">
+                <button id="exportPdfBtnCountdown" class="app-btn export-btn">Exporter en PDF</button>
+                <button id="exportCsvBtnCountdown" class="app-btn export-btn">Exporter en CSV</button>
+                <button id="exportJsonBtnCountdown" class="app-btn export-btn">Exporter en JSON</button>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <div class="settings-info">
+                <span>Rafraîchissement: <span id="refreshRateDisplay">10</span>ms</span>
+                <!-- Select pour changer la fréquence, caché pour l'instant
+                <select id="refreshRateSelect" aria-label="Changer la fréquence de rafraîchissement" class="hidden">
+                    <option value="10">10ms (Précis)</option> <option value="50">50ms</option> <option value="100">100ms (Éco)</option>
+                </select> -->
+            </div>
+            <div class="storage-options">
+                <button id="clearStorageBtn" class="app-btn danger-btn hidden">Effacer Données Sauvegardées</button>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+:root {
+    --bg-color-dark: #2c3e50; --text-color-dark: #ecf0f1; --primary-color-dark: #3498db; --secondary-color-dark: #e74c3c; --accent-color-dark: #2ecc71; --container-bg-dark: #34495e; --item-bg-dark: rgba(255, 255, 255, 0.05); --item-hover-bg-dark: rgba(255, 255, 255, 0.1); --border-color-dark: rgba(236, 240, 241, 0.2); --input-bg-dark: rgba(0,0,0,0.2); --input-text-dark: #ecf0f1;
+    --bg-color-light: #ecf0f1; --text-color-light: #2c3e50; --primary-color-light: #2980b9; --secondary-color-light: #c0392b; --accent-color-light: #27ae60; --container-bg-light: #ffffff; --item-bg-light: rgba(0, 0, 0, 0.03); --item-hover-bg-light: rgba(0, 0, 0, 0.07); --border-color-light: rgba(44, 62, 80, 0.2); --input-bg-light: rgba(0,0,0,0.05); --input-text-light: #2c3e50;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; --transition-speed: 0.25s;
+}
+
+body {
+    font-family: var(--font-family); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; box-sizing: border-box; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+body[data-theme="dark"] { background-color: var(--bg-color-dark); color: var(--text-color-dark); }
+body[data-theme="light"] { background-color: var(--bg-color-light); color: var(--text-color-light); }
+
+.app-container {
+    padding: 25px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); text-align: center; width: 100%; max-width: 500px; transition: background-color var(--transition-speed) ease;
+}
+body[data-theme="dark"] .app-container { background-color: var(--container-bg-dark); }
+body[data-theme="light"] .app-container { background-color: var(--container-bg-light); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); }
+
+.app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.app-header h1 { margin: 0; font-size: 2em; transition: color var(--transition-speed) ease; }
+body[data-theme="dark"] .app-header h1 { color: var(--primary-color-dark); }
+body[data-theme="light"] .app-header h1 { color: var(--primary-color-light); }
+.header-controls { display: flex; align-items: center; gap: 10px; }
+
+.icon-btn, .theme-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.15s ease; }
+.icon-btn:hover, .theme-btn:hover { background-color: rgba(127,127,127,0.1); }
+.icon-btn img, .theme-btn img { width: 22px; height: 22px; }
+body[data-theme="dark"] .icon-btn img, body[data-theme="dark"] .theme-btn .theme-icon-light { stroke: var(--text-color-dark); }
+body[data-theme="light"] .icon-btn img, body[data-theme="light"] .theme-btn .theme-icon-dark { stroke: var(--text-color-light); }
+body[data-theme="dark"] .theme-btn .theme-icon-dark { display: none; }
+body[data-theme="light"] .theme-btn .theme-icon-light { display: none; }
+
+.mode-switcher { display: flex; justify-content: center; margin-bottom: 20px; border: 1px solid; border-radius: 8px; overflow: hidden; }
+body[data-theme="dark"] .mode-switcher { border-color: var(--primary-color-dark); } body[data-theme="light"] .mode-switcher { border-color: var(--primary-color-light); }
+.mode-btn { flex-grow: 1; padding: 10px 15px; background-color: transparent; border: none; cursor: pointer; font-size: 0.95em; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+body[data-theme="dark"] .mode-btn { color: var(--text-color-dark); } body[data-theme="light"] .mode-btn { color: var(--text-color-light); }
+.mode-btn.active { font-weight: bold; }
+body[data-theme="dark"] .mode-btn.active { background-color: var(--primary-color-dark); color: white; }
+body[data-theme="light"] .mode-btn.active { background-color: var(--primary-color-light); color: white; }
+.mode-btn:not(.active):hover { opacity: 0.8; }
+body[data-theme="dark"] .mode-btn:not(.active):hover { background-color: rgba(255,255,255,0.05); }
+body[data-theme="light"] .mode-btn:not(.active):hover { background-color: rgba(0,0,0,0.05); }
+
+.mode-section { display: none; } .mode-section.active-mode { display: block; }
+
+.main-display { font-size: 2.8em; font-weight: bold; margin-bottom: 20px; padding: 12px; background-color: rgba(0,0,0,0.08); border-radius: 10px; letter-spacing: 1px; transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease; }
+body[data-theme="dark"] .main-display { color: var(--accent-color-dark); } body[data-theme="light"] .main-display { color: var(--accent-color-light); }
+.main-display.paused-display { opacity: 0.7; }
+body[data-theme="dark"] .main-display.paused-display { color: var(--text-color-dark); } body[data-theme="light"] .main-display.paused-display { color: var(--text-color-light); }
+.main-display.finished-blink { animation: blinker 0.6s linear infinite; }
+@keyframes blinker { 50% { opacity: 0.4; } }
+
+.controls { margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.app-btn, .control-btn, .sort-btn { color: white; border: none; padding: 10px; border-radius: 50%; cursor: pointer; width: 46px; height: 46px; display: flex; justify-content: center; align-items: center; transition: background-color var(--transition-speed) ease, transform 0.1s ease, opacity var(--transition-speed) ease; }
+.app-btn:active, .control-btn:active, .sort-btn:active { transform: scale(0.93); }
+.control-btn img, .sort-btn img { width: 20px; height: 20px; }
+body[data-theme="dark"] .control-btn, body[data-theme="dark"] .sort-btn { background-color: var(--primary-color-dark); }
+body[data-theme="light"] .control-btn, body[data-theme="light"] .sort-btn { background-color: var(--primary-color-light); }
+body[data-theme="dark"] .control-btn:hover, body[data-theme="dark"] .sort-btn:hover { background-color: color-mix(in srgb, var(--primary-color-dark) 85%, black); }
+body[data-theme="light"] .control-btn:hover, body[data-theme="light"] .sort-btn:hover { background-color: color-mix(in srgb, var(--primary-color-light) 85%, black); }
+#stopBtn, #resetBtn, #resetCountdownBtn { /* Specific colors */ }
+body[data-theme="dark"] #stopBtn, body[data-theme="dark"] #resetBtn, body[data-theme="dark"] #resetCountdownBtn { background-color: var(--secondary-color-dark); }
+body[data-theme="light"] #stopBtn, body[data-theme="light"] #resetBtn, body[data-theme="light"] #resetCountdownBtn { background-color: var(--secondary-color-light); }
+body[data-theme="dark"] #stopBtn:hover, body[data-theme="dark"] #resetBtn:hover, body[data-theme="dark"] #resetCountdownBtn:hover { background-color: color-mix(in srgb, var(--secondary-color-dark) 85%, black); }
+body[data-theme="light"] #stopBtn:hover, body[data-theme="light"] #resetBtn:hover, body[data-theme="light"] #resetCountdownBtn:hover { background-color: color-mix(in srgb, var(--secondary-color-light) 85%, black); }
+.control-btn.hidden { opacity: 0; visibility: hidden; transform: scale(0.7); pointer-events: none; }
+
+.countdown-setup { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 20px; }
+.countdown-setup label { font-size: 0.9em; }
+.countdown-setup input[type="number"] { width: 45px; padding: 7px; font-size: 0.95em; text-align: center; border-radius: 5px; border: 1px solid; }
+body[data-theme="dark"] .countdown-setup input[type="number"] { background-color: var(--input-bg-dark); color: var(--input-text-dark); border-color: var(--primary-color-dark); }
+body[data-theme="light"] .countdown-setup input[type="number"] { background-color: var(--input-bg-light); color: var(--input-text-light); border-color: var(--primary-color-light); }
+.countdown-setup input[type=number]::-webkit-inner-spin-button, .countdown-setup input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.countdown-setup input[type=number] { -moz-appearance: textfield; }
+.countdown-options { margin-top: 15px; font-size: 0.85em; }
+.countdown-options label { cursor: pointer; display: inline-flex; align-items: center; }
+.countdown-options input[type="checkbox"] { margin-right: 6px; }
+body[data-theme="dark"] .countdown-options input[type="checkbox"] { accent-color: var(--primary-color-dark); }
+body[data-theme="light"] .countdown-options input[type="checkbox"] { accent-color: var(--primary-color-light); }
+
+.laps-section { margin-top: 20px; text-align: left; }
+.laps-section.hidden { display: none; }
+.laps-section h2 { margin-bottom: 10px; text-align: center; font-size: 1.3em; }
+body[data-theme="dark"] .laps-section h2 { color: var(--primary-color-dark); } body[data-theme="light"] .laps-section h2 { color: var(--primary-color-light); }
+.sort-controls { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 8px; gap: 6px; }
+.sort-controls span { font-size: 0.85em; } .sort-btn { padding: 5px; width: 32px; height: 32px; }
+.sort-btn img { width: 16px; height: 16px;}
+
+#laps-list-chrono, #laps-list-countdown { list-style-type: none; padding: 0; max-height: 180px; overflow-y: auto; border: 1px solid; border-radius: 6px; padding: 8px; transition: border-color var(--transition-speed) ease; }
+body[data-theme="dark"] #laps-list-chrono, body[data-theme="dark"] #laps-list-countdown { border-color: var(--border-color-dark); }
+body[data-theme="light"] #laps-list-chrono, body[data-theme="light"] #laps-list-countdown { border-color: var(--border-color-light); }
+#laps-list-chrono li, #laps-list-countdown li { padding: 8px 10px; margin-bottom: 6px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; cursor: grab; font-size: 1em; transition: background-color var(--transition-speed) ease, box-shadow 0.15s ease; }
+body[data-theme="dark"] #laps-list-chrono li, body[data-theme="dark"] #laps-list-countdown li { background-color: var(--item-bg-dark); }
+body[data-theme="light"] #laps-list-chrono li, body[data-theme="light"] #laps-list-countdown li { background-color: var(--item-bg-light); }
+#laps-list-chrono li:last-child, #laps-list-countdown li:last-child { margin-bottom: 0; }
+body[data-theme="dark"] #laps-list-chrono li:hover, body[data-theme="dark"] #laps-list-countdown li:hover { background-color: var(--item-hover-bg-dark); }
+body[data-theme="light"] #laps-list-chrono li:hover, body[data-theme="light"] #laps-list-countdown li:hover { background-color: var(--item-hover-bg-light); }
+#laps-list-chrono li.last-lap, #laps-list-countdown li.last-lap { box-shadow: 0 0 7px -2px; }
+body[data-theme="dark"] #laps-list-chrono li.last-lap, body[data-theme="dark"] #laps-list-countdown li.last-lap { box-shadow: 0 0 7px -2px var(--accent-color-dark); }
+body[data-theme="light"] #laps-list-chrono li.last-lap, body[data-theme="light"] #laps-list-countdown li.last-lap { box-shadow: 0 0 7px -2px var(--accent-color-light); }
+
+.lap-details { flex-grow: 1; display: flex; align-items: center; text-align: left; }
+.lap-name { font-weight: bold; margin-right: 8px; cursor: pointer; padding: 2px 4px; border-radius: 3px; min-width: 50px; display: inline-block; }
+.lap-name:hover { background-color: rgba(127,127,127,0.15); }
+.lap-name-input { font-weight: bold; margin-right: 8px; padding: 3px 5px; border-radius: 4px; border: 1px solid; font-size: inherit; font-family: inherit; max-width: 160px; box-sizing: border-box; }
+body[data-theme="dark"] .lap-name-input { background-color: var(--input-bg-dark); color:var(--input-text-dark); border-color: var(--primary-color-dark); }
+body[data-theme="light"] .lap-name-input { background-color: var(--input-bg-light); color:var(--input-text-light); border-color: var(--primary-color-light); }
+.lap-actions { display: flex; align-items: center; }
+.lap-actions button { background: none; border: none; cursor: pointer; padding: 3px; margin-left: 6px; display: flex; align-items: center; justify-content: center; }
+.lap-actions button img { width: 16px; height: 16px; transition: stroke 0.15s ease; }
+body[data-theme="dark"] .lap-actions button img { stroke: var(--text-color-dark); } body[data-theme="light"] .lap-actions button img { stroke: var(--text-color-light); }
+body[data-theme="dark"] .lap-actions button.delete-lap-btn:hover img { stroke: var(--secondary-color-dark); }
+body[data-theme="light"] .lap-actions button.delete-lap-btn:hover img { stroke: var(--secondary-color-light); }
+
+.export-options { margin-top: 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.export-options.hidden { display: none; }
+.app-btn { padding: 9px 16px; border-radius: 7px; width: auto; height: auto; font-size: 0.85em; }
+body[data-theme="dark"] .app-btn.export-btn { background-color: var(--accent-color-dark); } body[data-theme="light"] .app-btn.export-btn { background-color: var(--accent-color-light); }
+body[data-theme="dark"] .app-btn.export-btn:hover { background-color: color-mix(in srgb, var(--accent-color-dark) 85%, black); }
+body[data-theme="light"] .app-btn.export-btn:hover { background-color: color-mix(in srgb, var(--accent-color-light) 85%, black); }
+body[data-theme="dark"] .app-btn.danger-btn { background-color: var(--secondary-color-dark); } body[data-theme="light"] .app-btn.danger-btn { background-color: var(--secondary-color-light); }
+body[data-theme="dark"] .app-btn.danger-btn:hover { background-color: color-mix(in srgb, var(--secondary-color-dark) 85%, black); }
+body[data-theme="light"] .app-btn.danger-btn:hover { background-color: color-mix(in srgb, var(--secondary-color-light) 85%, black); }
+.storage-options .app-btn.hidden { display: none; }
+
+.app-footer { margin-top: 25px; padding-top: 12px; border-top: 1px solid; display: flex; justify-content: space-between; align-items: center; font-size: 0.8em; opacity: 0.75; }
+body[data-theme="dark"] .app-footer { border-top-color: var(--border-color-dark); } body[data-theme="light"] .app-footer { border-top-color: var(--border-color-light); }
+.settings-info { display: flex; align-items: center; gap: 8px; }
+#refreshRateSelect.hidden { display: none;}
+
+.dragging { opacity: 0.6; border: 2px dashed; }
+body[data-theme="dark"] .dragging { border-color: var(--primary-color-dark); } body[data-theme="light"] .dragging { border-color: var(--primary-color-light); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid; outline-offset: 2px; }
+body[data-theme="dark"] button:focus-visible, body[data-theme="dark"] input:focus-visible, body[data-theme="dark"] select:focus-visible { outline-color: var(--primary-color-dark); }
+body[data-theme="light"] button:focus-visible, body[data-theme="light"] input:focus-visible, body[data-theme="light"] select:focus-visible { outline-color: var(--primary-color-light); }
+
+/* Fullscreen Mode Styles - IMPORTANT: Specificity and !important might be needed if other styles override */
+body.fullscreen-active { padding: 0 !important; overflow: hidden !important; }
+.fullscreen-active .app-container {
+    max-width: 100% !important; width: 100vw !important; height: 100vh !important;
+    border-radius: 0 !important; padding: 15px !important; display: flex !important;
+    flex-direction: column !important; justify-content: center !important; align-items: center !important;
+    box-sizing: border-box !important;
+}
+.fullscreen-active .app-header h1, .fullscreen-active .theme-btn,
+.fullscreen-active .mode-switcher, .fullscreen-active .laps-section,
+.fullscreen-active .export-options, .fullscreen-active .app-footer,
+.fullscreen-active .storage-options, .fullscreen-active .countdown-setup,
+.fullscreen-active .countdown-options {
+    display: none !important;
+}
+.fullscreen-active .header-controls { /* Garder le bouton fullscreen pour sortir */
+    position: absolute !important; top: 10px !important; right: 10px !important; z-index: 1001 !important;
+}
+.fullscreen-active .app-header { margin-bottom: 0 !important; }
+.fullscreen-active .main-display {
+    font-size: clamp(5em, 15vw, 10em) !important; /* Responsive font size */
+    margin-bottom: 30px !important; flex-grow: 1 !important; display: flex !important;
+    align-items: center !important; justify-content: center !important;
+}
+.fullscreen-active .controls { gap: 15px !important; }
+.fullscreen-active .control-btn { width: 60px !important; height: 60px !important; }
+.fullscreen-active .control-btn img { width: 28px !important; height: 28px !important; }
